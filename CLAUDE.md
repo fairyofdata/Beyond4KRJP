@@ -6,6 +6,8 @@
 
 **작업 지시는 [`docs/CHARTER-and-phase0.md`](docs/CHARTER-and-phase0.md) 에 있다. 코드를 건드리기 전에 읽을 것.** 설계 판단과 그 근거는 `docs/decisions/` 에 있다.
 
+**설계가 왜 이 형태인지, 무엇을 검토하고 버렸는지는 [`docs/HISTORY.md`](docs/HISTORY.md) 에 있다.** 제품 방향을 다시 논의하려 하거나 "그냥 AI 가 종합 요약하면 안 되나" 같은 의문이 들면 먼저 읽을 것 — 이미 검토하고 버린 것일 가능성이 높다.
+
 ## 현재 상태
 
 | | |
