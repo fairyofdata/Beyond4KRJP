@@ -1,0 +1,35 @@
+# 모든 임계값은 Phase 1 에서 손 라벨로 보정한다 (eval/gap_calibration.py).
+# 지금 값은 측정된 값이 아니라 출발점이다.
+
+cluster:
+  window_hours: 36          # 해외 소스 클러스터링 윈도우
+  cosine_threshold: 0.62    # 미보정
+  min_cluster_size: 2
+
+baseline:
+  # ★ 비대칭 설계. 근거는 docs/decisions/0002 참조.
+  window_hours: 72          # baseline(KR/JP) 쪽은 더 넓게. 한국 보도는 흔히 지연된다.
+  tau_high: 0.58            # 이상 → covered
+  tau_low: 0.34             # 미만 → not_covered
+                            # 사이 → uncertain (공백 목록에서 제외하고 집계)
+  query_top_k: 3            # 클러스터 대표 기사 수
+  weights:
+    embedding: 0.6
+    entity: 0.25
+    numeric: 0.15
+
+exposure:
+  min_blocs: 3              # 바깥에서 이 블록 수 이상 독립 보도된 사건만 대상
+  # 내가 실제로 접하는 언론의 범위. 나라를 구분하지 않고 **하나의 '안쪽'** 으로
+  # 합친다 (ADR 0006). 한국이 다뤘든 일본이 다뤘든 접할 기회가 있었던 것이다.
+  home_media: ["KR", "JP"]
+  # exposure_gap = 바깥 블록 수 / (1 + 안쪽 기사 수)
+  # 이 값 이상이면 '과소 보도'로 분류한다. 미보정.
+  underreported_gap: 1.5
+  # '외부에서 본 안쪽 이슈' 섹션을 만들 개체. 이 개체가 등장하는 클러스터를
+  # 따로 모아, 제3자 시선의 프레이밍을 보여준다.
+  home_entities: ["south_korea", "north_korea", "japan"]
+
+budget:
+  max_llm_calls_per_day: 40
+  max_llm_tokens_per_day: 200000
